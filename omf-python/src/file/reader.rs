@@ -2,6 +2,7 @@ use crate::array::{
     PyColorArray, PyIndexArray, PyNameArray, PySegmentArray, PyTriangleArray, PyVertexArray,
 };
 use crate::element::PyColor;
+use crate::errors::OmfException;
 use crate::PyProject;
 use omf::file::{Limits, Reader};
 use std::fs::File;
@@ -43,16 +44,13 @@ impl PyReader {
     #[new]
     pub fn new(filepath: &str) -> PyResult<Self> {
         let file = File::open(filepath).map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))?;
-        let reader = Reader::new(file).map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))?;
+        let reader = Reader::new(file).map_err(OmfException::py_err)?;
         Ok(PyReader(reader))
     }
 
     #[getter]
     fn project(&self) -> PyResult<PyProject> {
-        let (project, problems) = self
-            .0
-            .project()
-            .map_err(|e| PyErr::new::<PyIOError, _>(e.to_string()))?;
+        let (project, problems) = self.0.project().map_err(OmfException::py_err)?;
 
         if !problems.is_empty() {
             println!("Warnings while reading project: {:?}", problems);

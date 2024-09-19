@@ -4,6 +4,7 @@ use pyo3::prelude::*;
 mod array;
 mod attribute;
 mod element;
+mod errors;
 mod file;
 mod geometry;
 mod omf1;
@@ -13,6 +14,7 @@ mod validate;
 use array::{PyColorArray, PyIndexArray, PyNameArray, PyTriangleArray, PyVertexArray};
 use attribute::{PyAttribute, PyAttributeDataCategory, PyAttributeDataColor};
 use element::{PyColor, PyElement};
+use errors::OmfException;
 use file::reader::{PyLimits, PyReader};
 use geometry::{PyGeometry, PyLineSet, PyPointSet, PySurface};
 use omf1::converter::{detect_open, PyConverter};
@@ -26,7 +28,7 @@ fn version() -> String {
 
 /// This module provides python bindings for omf-rust.
 #[pymodule]
-fn omf_python(m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn omf_python(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyAttribute>()?;
     m.add_class::<PyAttributeDataCategory>()?;
     m.add_class::<PyAttributeDataColor>()?;
@@ -51,6 +53,8 @@ fn omf_python(m: &Bound<'_, PyModule>) -> PyResult<()> {
     omf1_submodule.add_function(wrap_pyfunction!(detect_open, m)?)?;
     omf1_submodule.add_class::<PyConverter>()?;
     m.add_submodule(&omf1_submodule)?;
+
+    m.add("OmfException", py.get_type_bound::<OmfException>())?;
 
     Ok(())
 }
