@@ -14,7 +14,7 @@ mod validate;
 use array::{PyColorArray, PyIndexArray, PyNameArray, PyTriangleArray, PyVertexArray};
 use attribute::{PyAttribute, PyAttributeDataCategory, PyAttributeDataColor};
 use element::{PyColor, PyElement};
-use errors::OmfException;
+use errors::{OmfException, OmfIoError, OmfValidationFailedError};
 use file::reader::{PyLimits, PyReader};
 use geometry::{PyGeometry, PyLineSet, PyPointSet, PySurface};
 use omf1::converter::{detect_open, PyConverter};
@@ -55,6 +55,11 @@ fn omf_python(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_submodule(&omf1_submodule)?;
 
     m.add("OmfException", py.get_type_bound::<OmfException>())?;
+    m.add("OmfIoError", py.get_type_bound::<OmfIoError>())?;
+    m.add(
+        "OmfValidationFailedError",
+        py.get_type_bound::<OmfValidationFailedError>(),
+    )?;
 
     Ok(())
 }
