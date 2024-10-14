@@ -1,6 +1,7 @@
 use crate::attribute::PyAttribute;
-use crate::errors::OmfNotSupportedException;
+use crate::errors::{OmfException, OmfNotSupportedException};
 use crate::geometry::{PyGridSurface, PyLineSet, PyPointSet, PySurface};
+use omf::error::Error::DeserializationFailed;
 use omf::Color;
 use omf::Element;
 use omf::Geometry;
@@ -28,6 +29,14 @@ impl PyElement {
     /// Optional element description.
     fn description(&self) -> String {
         self.0.description.clone()
+    }
+
+    #[getter]
+    /// Element metadata.
+    fn metadata(&self) -> PyResult<String> {
+        let metadata = serde_json::to_string(&self.0.metadata)
+            .map_err(|e| OmfException::py_err(DeserializationFailed(e)))?;
+        Ok(metadata)
     }
 
     /// List of attributes, if any.
