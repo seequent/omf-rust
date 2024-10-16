@@ -84,6 +84,8 @@ impl From<PyGrid2Tensor> for Grid2 {
 #[pymethods]
 impl PyGrid2Tensor {
     #[getter]
+    /// Array with `Scalar` type storing the size of each cell along the U axis.
+    /// These sizes must be greater than zero.
     fn u(&self) -> PyScalarArray {
         match &self.0 {
             Grid2::Regular { .. } => unreachable!(),
@@ -92,6 +94,8 @@ impl PyGrid2Tensor {
     }
 
     #[getter]
+    /// Array with `Scalar` type storing the size of each cell along the V axis.
+    /// These sizes must be greater than zero.
     fn v(&self) -> PyScalarArray {
         match &self.0 {
             Grid2::Regular { .. } => unreachable!(),
