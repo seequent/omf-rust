@@ -3,16 +3,17 @@ use crate::array::{
     PyNumberArray, PyTexcoordArray, PyTextArray, PyVectorArray,
 };
 use crate::colormap::{PyNumberColormapContinuous, PyNumberColormapDiscrete};
-use crate::errors::{OmfException, OmfNotSupportedException};
+use crate::errors::{OmfJsonException, OmfNotSupportedException};
 use crate::grid::PyOrient2;
-use omf::error::Error::DeserializationFailed;
 use omf::{Attribute, AttributeData, Location, NumberColormap};
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use pyo3_stub_gen::derive::*;
+use serde_pyobject::to_pyobject;
 
 #[gen_stub_pyclass_enum]
-#[pyclass(name = "Location")]
+#[pyclass(eq, eq_int, name = "Location")]
+#[derive(PartialEq)]
 /// Describes what part of the geometry an attribute attaches to.
 ///
 /// See the documentation for each Geometry variant for a list of what
@@ -77,10 +78,8 @@ impl PyAttribute {
 
     #[getter]
     /// Attribute metadata.
-    fn metadata(&self) -> PyResult<String> {
-        let metadata = serde_json::to_string(&self.0.metadata)
-            .map_err(|e| OmfException::py_err(DeserializationFailed(e)))?;
-        Ok(metadata)
+    fn metadata<'p>(&self, py: Python<'p>) -> PyResult<Bound<'p, PyAny>> {
+        to_pyobject(py, &self.0.metadata).map_err(|e| OmfJsonException::new_err(e.to_string()))
     }
 
     #[getter]
@@ -96,14 +95,6 @@ impl PyAttribute {
             Location::Projected => PyLocation::Projected,
             Location::Categories => PyLocation::Categories,
         }
-    }
-
-    #[getter]
-    /// The attribute data as a JSON string.
-    fn data_json(&self) -> PyResult<String> {
-        let data = serde_json::to_string(&self.0.data)
-            .map_err(|e| OmfException::py_err(DeserializationFailed(e)))?;
-        Ok(data)
     }
 
     /// The attribute data.
