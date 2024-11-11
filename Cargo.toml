@@ -26,11 +26,10 @@ regex.workspace = true
 glam = "0.28"
 
 [features]
-default = ["image", "parquet", "omf1", "extension-module"]
+default = ["image", "parquet", "omf1"]
 image = ["dep:image"]
 parquet = ["dep:parquet", "dep:bytes"]
 omf1 = ["parquet"]
-extension-module = ["pyo3/extension-module"]
 
 [workspace]
 members = ["omf-c", "omf-python"]
