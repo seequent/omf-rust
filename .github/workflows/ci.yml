@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -48,18 +48,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: ${{ matrix.rust }}
 
+      - name: Build
+        run: cargo build --all --release --verbose
+
       - name: Test
         run: cargo test --all
-
-      - name: Build
-        run: cargo build --all --release
 
       - name: C Examples
         if: runner.os != 'Windows'
