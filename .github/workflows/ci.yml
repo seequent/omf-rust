@@ -56,9 +56,9 @@ jobs:
           toolchain: ${{ matrix.rust }}
 
       - name: Test Xcode version
-        if: runner.os == 'macos-latest'
+        if: runner.os == 'macOS'
         run: xcodebuild -version 
-        
+
       - name: Build
         run: cargo build --all --release
 
