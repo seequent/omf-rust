@@ -40,7 +40,7 @@ jobs:
         include:
           - { rust: stable, os: ubuntu-latest }
           - { rust: stable, os: windows-latest }
-          - { rust: stable, os: macos-latest }
+          - { rust: stable, os: macos-15 }
           - { rust: beta, os: ubuntu-latest }
           # Turn this on once we have a MSRV (minimum supported rust version)
           # - { rust: 1.70.0, os: ubuntu-latest }
@@ -56,7 +56,7 @@ jobs:
           toolchain: ${{ matrix.rust }}
 
       - name: Build
-        run: cargo build --all --release --verbose
+        run: cargo build --all --release
 
       - name: Test
         run: cargo test --all
