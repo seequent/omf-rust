@@ -40,7 +40,7 @@ jobs:
         include:
           - { rust: stable, os: ubuntu-latest }
           - { rust: stable, os: windows-latest }
-          - { rust: stable, os: macos-13 }
+          - { rust: stable, os: macos-latest }
           - { rust: beta, os: ubuntu-latest }
           # Turn this on once we have a MSRV (minimum supported rust version)
           # - { rust: 1.70.0, os: ubuntu-latest }
