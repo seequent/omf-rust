@@ -59,11 +59,11 @@ jobs:
         run: cargo test --all
 
       - name: Build for Windows/Linux
-        if: runner.os != 'macos-latest':
+        if: runner.os != 'macos-latest'
         run: cargo build --all --release
 
       - name: Build for macOS
-        if: runner.os == 'macos-latest':
+        if: runner.os == 'macos-latest'
         run: cargo rustc --release -- -C link-arg=-undefined -C link-arg=dynamic_lookup
 
       - name: C Examples
