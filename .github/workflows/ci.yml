@@ -5,9 +5,6 @@ on: [push]
 permissions:
   contents: read
 
-env:
-  RUST_BACKTRACE: 1
-
 jobs:
   check:
     name: Check
@@ -57,7 +54,7 @@ jobs:
 
       - name: Build for macOS
         if: runner.os == 'macOS'
-        run: cargo build --all --release --verbose
+        run: cargo build --all --release 
 
       - name: Build for Windows/Linux
         if: runner.os != 'macOS'
