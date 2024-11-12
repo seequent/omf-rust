@@ -55,16 +55,21 @@ jobs:
         with:
           toolchain: ${{ matrix.rust }}
 
-      - name: Build for macOS
-        if: runner.os == 'macOS'
-        run: RUSTFLAGS="-C link-arg=-undefined -C link-arg=dynamic_lookup" cargo build --all --release
-
       - name: Build for Windows/Linux
         if: runner.os != 'macOS'
         run: cargo build --all --release
 
-      - name: Test
+      - name: Build for Mac
+        if: runner.os == 'macOS'
+        run: RUSTFLAGS="-C link-arg=-undefined -C link-arg=dynamic_lookup" cargo build --all --release
+
+      - name: Test for Windows/Linux
+        if: runner.os != 'macOS'
         run: cargo test --all
+
+      - name: Test for Mac
+        if: runner.os == 'macOS'
+        run: RUSTFLAGS="-C link-arg=-undefined -C link-arg=dynamic_lookup" cargo test --all
 
       - name: C Examples
         if: runner.os != 'Windows'
