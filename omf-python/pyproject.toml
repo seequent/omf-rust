@@ -4,8 +4,6 @@ build-backend = "maturin"
 
 [project]
 name = "omf_python"
-version = "0.1.0"
-description = "A Python project for OMF"
 requires-python = ">=3.7"
 
 [tool.maturin]
