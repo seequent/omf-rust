@@ -55,11 +55,12 @@ jobs:
         with:
           toolchain: ${{ matrix.rust }}
 
-      - name: Test Xcode version
+      - name: Build for macOS
         if: runner.os == 'macOS'
-        run: xcodebuild -version 
+        run: cargo build --all --release --verbose
 
-      - name: Build
+      - name: Build for Windows/Linux
+        if: runner.os != 'macOS'
         run: cargo build --all --release
 
       - name: Test

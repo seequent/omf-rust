@@ -21,6 +21,7 @@ itertools = "0.13.0"
 
 [build-dependencies]
 omf = { path = ".." }
+pyo3-build-config = "0.22.6"
 
 [lib]
 name = "omf_python"
