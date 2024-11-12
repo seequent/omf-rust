@@ -1,6 +1,6 @@
 [target.aarch64-apple-darwin]
 rustflags = [
-  "-C", "link-arg=-undefined",
+  "-C", "linkx-arg=-undefined",
   "-C", "link-arg=dynamic_lookup",
 ]
 
