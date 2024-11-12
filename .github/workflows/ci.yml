@@ -5,6 +5,9 @@ on: [push]
 permissions:
   contents: read
 
+env:
+  RUST_BACKTRACE: 1
+
 jobs:
   check:
     name: Check
@@ -54,7 +57,7 @@ jobs:
 
       - name: Build for macOS
         if: runner.os == 'macOS'
-        run: cargo build --all --release 
+        run: RUSTFLAGS="-C link-arg=-undefined -C link-arg=dynamic_lookup" cargo build --all --release
 
       - name: Build for Windows/Linux
         if: runner.os != 'macOS'
