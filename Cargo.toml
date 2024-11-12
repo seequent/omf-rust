@@ -49,4 +49,4 @@ schemars = { version = "0.8.21", features = ["chrono"] }
 serde = { version = "1.0.215", features = ["derive"] }
 serde_json = { version = "1.0.132", features = ["float_roundtrip"] }
 thiserror = "2.0.3"
-zip = { version = "~2.2", default-features = false }
+zip = { version = "~2.0", default-features = false }
