@@ -62,6 +62,7 @@ jobs:
       - name: Build for Mac
         if: runner.os == 'macOS'
         env:
+          # Required for linking on macOS
           RUSTFLAGS: "-C link-arg=-undefined -C link-arg=dynamic_lookup"
         run: cargo build --all --release
 
@@ -72,6 +73,7 @@ jobs:
       - name: Test for Mac
         if: runner.os == 'macOS'
         env:
+          # Required for linking on macOS
           RUSTFLAGS: "-C link-arg=-undefined -C link-arg=dynamic_lookup"
         run: cargo test --all
 
