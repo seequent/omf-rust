@@ -16,7 +16,7 @@ chrono.workspace = true
 zip.workspace = true
 serde.workspace = true
 flate2.workspace = true
-numpy = "0.22.0"
+numpy = "0.22.1"
 itertools = "0.13.0"
 
 [build-dependencies]
