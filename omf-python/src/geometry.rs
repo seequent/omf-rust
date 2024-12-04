@@ -17,11 +17,17 @@ pub struct PyPointSet(pub PointSet);
 #[pymethods]
 impl PyPointSet {
     #[getter]
+    /// Origin of the surface relative to the project coordinate reference
+    /// system.
     fn origin<'py>(&self, py: Python<'py>) -> Bound<'py, PyArray1<f64>> {
         PyArray1::from_slice_bound(py, &self.0.origin)
     }
 
     #[getter]
+    /// Array with `Vertex` type storing the vertex locations.
+    ///
+    /// Add `origin` and the project origin to get the locations relative
+    /// to the project coordinate reference system.
     fn vertices(&self) -> PyVertexArray {
         PyVertexArray(self.0.vertices.clone())
     }
@@ -36,16 +42,24 @@ pub struct PyLineSet(pub LineSet);
 #[pymethods]
 impl PyLineSet {
     #[getter]
+    /// Origin of the surface relative to the project coordinate reference
+    /// system.
     fn origin<'py>(&self, py: Python<'py>) -> Bound<'py, PyArray1<f64>> {
         PyArray1::from_slice_bound(py, &self.0.origin)
     }
 
     #[getter]
+    /// Array with `Vertex` type storing the vertex locations.
+    ///
+    /// Add `origin` and the project origin to get the locations relative
+    /// to the project coordinate reference system.
     fn vertices(&self) -> PyVertexArray {
         PyVertexArray(self.0.vertices.clone())
     }
 
     #[getter]
+    /// Array with `Segment` type storing each line segment as a pair of indices
+    /// into `vertices`.
     fn segments(&self) -> PySegmentArray {
         PySegmentArray(self.0.segments.clone())
     }
